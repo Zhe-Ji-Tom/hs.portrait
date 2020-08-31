@@ -3,7 +3,7 @@ import jieba.analyse
 from xlutils.copy import copy
 
 
-def generate_word_cloud(url):
+def generate_word_cloud(url, top):
     # open excel
     excel = xlrd.open_workbook(url, formatting_info=True)
     # choose sheet of weekly reports
@@ -15,7 +15,7 @@ def generate_word_cloud(url):
 
     for i in range(row):
         cell = read_sheet.cell_value(i, 5)
-        tfidf = jieba.analyse.tfidf(cell, topK=5, withWeight=True, allowPOS='n')
+        tfidf = jieba.analyse.tfidf(cell, topK=top, withWeight=True, allowPOS={'n'})
         # pick keyword
         result = ''
         for arr in tfidf:

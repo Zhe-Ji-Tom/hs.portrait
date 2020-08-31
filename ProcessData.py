@@ -5,7 +5,7 @@ import xlutils
 from xlutils.copy import copy
 from WordCloud import generate_word_cloud
 
-generate_word_cloud("20200713163155845.xls")
+generate_word_cloud("20200713163155845.xls", 20)
 #
 # excel = xlrd.open_workbook("20200713163155845.xls")
 # sheets = excel.sheet_names()
