@@ -1,10 +1,8 @@
 import pymysql
 
 
-def get_tags_by_category():
+def get_tags_by_category(connect):
     tags = {}
-    # 连接数据库
-    connect = pymysql.connect('localhost', user='root', passwd='root', db='test')
     cursor = connect.cursor()
     # 获取工作分类
     cursor.execute("SELECT DISTINCT CATEGORY FROM CATEGORY_SET")
