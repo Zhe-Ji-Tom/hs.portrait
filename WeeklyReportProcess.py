@@ -32,5 +32,4 @@ def analyze():
         tfidf = jieba.analyse.tfidf(weekly_report_set, topK=top, withWeight=False, allowPOS='n')
         # 结果写入数据库
         cursor.execute("UPDATE WEEKLY_REPORT SET WORD_CLOUD = %s WHERE ID = %d", (tfidf, weekly_report_list[0][0]))
-
-    connect.commit()
+        connect.commit()
