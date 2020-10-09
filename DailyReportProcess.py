@@ -34,8 +34,10 @@ def analyze():
             for keyword in keywords:
                 if keyword in daily_report[1]:
                     # 记录日报工作类型
-                    cursor.execute("INSERT INTO DAILY_REPORT_RESULT (DAILY_REPORT_ID, CATEGORY) VALUES (%d, %s)",
-                                   (daily_report[0], label))
+                    cursor.execute("SELECT ID FROM KEYWORDS WHERE KEYWORD = %s", keyword)
+                    keyword_id = cursor.fetchone()
+                    cursor.execute("INSERT INTO DAILY_REPORT_RESULT (DAILY_REPORT_ID, KEYWORD_ID) VALUES (%d, %d)",
+                                   (daily_report[0], keyword_id))
                     connect.commit()
                 break
 
