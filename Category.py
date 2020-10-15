@@ -8,7 +8,7 @@ def get_keywords_by_label(connect):
     label_ids = cursor.fetchall()
 
     for label_id in label_ids:
-        cursor.execute("SELECT KEYWORD FROM KEYWORDS WHERE LABEL_ID = %s", label_id)
+        cursor.execute("SELECT KEYWORD FROM KEYWORDS WHERE LABEL_ID = %s", label_id[0])
         keywords = cursor.fetchall()
         keyword_map = {label_id: keywords}
         labels_keywords_map.update(keyword_map)

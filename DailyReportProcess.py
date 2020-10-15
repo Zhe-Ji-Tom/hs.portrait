@@ -25,23 +25,22 @@ def analyze():
     cursor.execute("SELECT ID FROM USER")
     user_list = cursor.fetchall()
     for user in user_list:
-        print("计算用户ID为{" + str(user[0]) + "}的词云")
+        print("分析用户ID为{" + str(user[0]) + "}的日报")
         # 读取日报ID及内容
         cursor.execute("SELECT ID, CONTENT FROM DAILY_REPORT WHERE USER_ID = %s ORDER BY REPORT_TIME DESC LIMIT 1", user[0])
         daily_report = cursor.fetchone()
         for label in keywords_map.keys():
             keywords = keywords_map.get(label)
             for keyword in keywords:
-                if keyword in daily_report[1]:
+                if keyword[0] in daily_report[1]:
                     # 记录日报工作类型
-                    cursor.execute("SELECT ID FROM KEYWORDS WHERE KEYWORD = %s", keyword)
+                    cursor.execute("SELECT ID FROM KEYWORDS WHERE KEYWORD = %s", keyword[0])
                     keyword_id = cursor.fetchone()
-                    cursor.execute("INSERT INTO DAILY_REPORT_RESULT (DAILY_REPORT_ID, KEYWORD_ID) VALUES (%d, %d)",
-                                   (daily_report[0], keyword_id))
+                    cursor.execute("INSERT INTO DAILY_REPORT_RESULT (DAILY_REPORT_ID, lABEL_ID, KEYWORD_ID) VALUES (%s, %s, %s)",
+                                   (daily_report[0], label, keyword_id))
                     connect.commit()
-                break
+                    break
 
 
 
-
-
+analyze()
