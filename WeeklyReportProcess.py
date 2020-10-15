@@ -32,13 +32,14 @@ def analyze():
         cursor.execute("SELECT ID,CONTENT FROM WEEKLY_REPORT WHERE USER_ID = %s ORDER BY REPORT_TIME DESC LIMIT %s", (user[0], period))
         weekly_report_list = cursor.fetchall()
         if weekly_report_list :
+            process_id = weekly_report_list[0][0]
             weekly_report_set = ""
             for i in range(len(weekly_report_list)):
                 weekly_report_set = weekly_report_set + weekly_report_list[i][1]
             # 计算词云
             tfidf = jieba.analyse.tfidf(weekly_report_set, topK=top, withWeight=False, allowPOS='n')
             # 结果写入数据库
-            cursor.execute("UPDATE WEEKLY_REPORT SET WORD_CLOUD = %s WHERE ID = %d", (tfidf, weekly_report_list[0][0]))
+            cursor.execute("UPDATE WEEKLY_REPORT SET WORD_CLOUD = %s WHERE ID = %s", (','.join(tfidf), process_id))
             connect.commit()
 
 
